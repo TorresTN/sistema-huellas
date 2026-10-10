@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agendamiento de citas de la Clínica Veterinaria Huellas del Valle">
+  <title>Huellas del Valle · Citas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%230E4A43'%3E%3Cellipse cx='32' cy='42' rx='14' ry='12'/%3E%3Cellipse cx='14' cy='26' rx='6' ry='8'/%3E%3Cellipse cx='26' cy='15' rx='6' ry='8'/%3E%3Cellipse cx='38' cy='15' rx='6' ry='8'/%3E%3Cellipse cx='50' cy='26' rx='6' ry='8'/%3E%3C/g%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="barra">
+    <div class="barra__marca">
+      <svg class="huella" viewBox="0 0 64 64" aria-hidden="true">
+        <ellipse cx="32" cy="42" rx="14" ry="12"/>
+        <ellipse cx="14" cy="26" rx="6" ry="8"/>
+        <ellipse cx="26" cy="15" rx="6" ry="8"/>
+        <ellipse cx="38" cy="15" rx="6" ry="8"/>
+        <ellipse cx="50" cy="26" rx="6" ry="8"/>
+      </svg>
+      <div>
+        <p class="barra__nombre">Huellas del Valle</p>
+        <p class="barra__sub">Clínica veterinaria en Cali</p>
+      </div>
+    </div>
+    <nav class="pestanas" role="tablist" aria-label="Vistas del sistema">
+      <button class="pestana" role="tab" id="tab-agendar" aria-controls="vista-agendar" aria-selected="true" data-vista="agendar">Agendar cita</button>
+      <button class="pestana" role="tab" id="tab-agenda" aria-controls="vista-agenda" aria-selected="false" data-vista="agenda" tabindex="-1">Agenda del día</button>
+    </nav>
+  </header>
+
+  <div id="aviso-config" class="aviso-config" hidden></div>
+
+  <main id="contenido">
+    <!-- ================= VISTA 1 · AGENDAR ================= -->
+    <section id="vista-agendar" class="vista" role="tabpanel" aria-labelledby="tab-agendar">
+      <div class="agendar">
+        <form id="form-cita" class="formulario" novalidate>
+          <h1>Pide una cita para tu mascota</h1>
+          <p class="intro">Te respondemos al instante: el sistema revisa el cupo de la franja y confirma la cita en el momento.</p>
+
+          <fieldset>
+            <legend>Tus datos</legend>
+            <div class="fila">
+              <div class="campo">
+                <label for="propietario">Nombre completo</label>
+                <input id="propietario" name="propietario" autocomplete="name" required maxlength="80" placeholder="Ana María Rojas">
+                <p class="error" id="err-propietario"></p>
+              </div>
+              <div class="campo">
+                <label for="correo">Correo</label>
+                <input id="correo" name="correo" type="email" autocomplete="email" required maxlength="120" placeholder="ana@correo.com">
+                <p class="error" id="err-correo"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tu mascota</legend>
+            <div class="fila">
+              <div class="campo">
+                <label for="mascota">Nombre</label>
+                <input id="mascota" name="mascota" required maxlength="60" placeholder="Luna">
+                <p class="error" id="err-mascota"></p>
+              </div>
+              <div class="campo">
+                <span class="etiqueta" id="lbl-especie">Especie</span>
+                <div class="opciones" role="radiogroup" aria-labelledby="lbl-especie">
+                  <label class="opcion"><input type="radio" name="especie" value="perro" required><span>Perro</span></label>
+                  <label class="opcion"><input type="radio" name="especie" value="gato"><span>Gato</span></label>
+                </div>
+                <p class="error" id="err-especie"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>La cita</legend>
+            <div class="campo">
+              <span class="etiqueta" id="lbl-servicio">Servicio</span>
+              <div class="opciones opciones--servicios" role="radiogroup" aria-labelledby="lbl-servicio">
+                <label class="opcion"><input type="radio" name="servicio" value="Consulta general" required><span>Consulta general</span></label>
+                <label class="opcion"><input type="radio" name="servicio" value="Vacunación"><span>Vacunación</span></label>
+                <label class="opcion"><input type="radio" name="servicio" value="Baño"><span>Baño</span></label>
+                <label class="opcion"><input type="radio" name="servicio" value="Ecografía"><span>Ecografía</span></label>
+              </div>
+              <p class="error" id="err-servicio"></p>
+            </div>
+
+            <div class="fila fila--cita">
+              <div class="campo campo--fecha">
+                <label for="fecha">Fecha</label>
+                <input id="fecha" name="fecha" type="date" required>
+                <p class="error" id="err-fecha"></p>
+              </div>
+              <div class="campo">
+                <span class="etiqueta" id="lbl-hora">Hora</span>
+                <div id="horas" class="horas" role="radiogroup" aria-labelledby="lbl-hora"></div>
+                <p class="ayuda" id="ayuda-horas">Elige la fecha para ver los cupos disponibles.</p>
+                <p class="error" id="err-hora"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <button type="submit" id="btn-enviar" class="boton">
+            <span class="boton__texto">Solicitar cita</span>
+            <span class="boton__giro" aria-hidden="true"></span>
+          </button>
+
+          <details class="casos">
+            <summary>Rellenar un caso de prueba del parcial</summary>
+            <p>Llena el formulario con los datos del caso. Revisa el correo y luego presiona <b>Solicitar cita</b>. Deben correrse en orden.</p>
+            <div class="casos__botones" id="casos"></div>
+          </details>
+        </form>
+
+        <aside class="lateral" aria-label="Resultado de la solicitud">
+          <div id="resultado" class="resultado" aria-live="polite">
+            <div class="placa placa--vacia">
+              <span class="placa__argolla" aria-hidden="true"></span>
+              <p class="placa__estado">Sin solicitud</p>
+              <p class="placa__texto">Cuando envíes el formulario, aquí verás lo que respondió el sistema.</p>
+            </div>
+          </div>
+
+          <section class="historial">
+            <div class="historial__cabeza">
+              <h2>Solicitudes enviadas</h2>
+              <button type="button" id="btn-limpiar" class="enlace">Borrar lista</button>
+            </div>
+            <ol id="lista-historial" class="historial__lista"></ol>
+            <p id="historial-vacio" class="vacio">Aún no has enviado solicitudes desde este navegador.</p>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= VISTA 2 · AGENDA DEL DÍA ================= -->
+    <section id="vista-agenda" class="vista" role="tabpanel" aria-labelledby="tab-agenda" hidden>
+      <div class="agenda__cabeza">
+        <div>
+          <h1>Agenda del día</h1>
+          <p class="intro">Las citas de una fecha con su estado, leídas de la misma hoja que actualiza el proceso.</p>
+        </div>
+        <div class="navfecha">
+          <button type="button" class="navfecha__flecha" id="dia-anterior" aria-label="Día anterior">‹</button>
+          <input type="date" id="fecha-agenda" aria-label="Fecha de la agenda">
+          <button type="button" class="navfecha__flecha" id="dia-siguiente" aria-label="Día siguiente">›</button>
+          <button type="button" class="boton boton--secundario" id="btn-actualizar">Actualizar</button>
+        </div>
+      </div>
+
+      <p id="fecha-larga" class="fecha-larga"></p>
+      <p id="resumen" class="resumen"></p>
+
+      <h2 class="subtitulo">Franjas y cupos</h2>
+      <div id="franjas" class="franjas"></div>
+
+      <h2 class="subtitulo">Citas</h2>
+      <div id="tabla-citas" class="tabla-wrap"></div>
+
+      <p id="actualizado" class="actualizado"></p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Huellas del Valle S.A.S. — Sistema de agendamiento conectado a Make.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
